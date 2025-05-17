@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Backend.DTOs
+namespace backend.DTOs
 {
     public class UsuarioDTO
     {

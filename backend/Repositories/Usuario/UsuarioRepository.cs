@@ -1,7 +1,7 @@
-using Backend.Models;
+using backend.Models;
 using Microsoft.Data.Sqlite;
 
-namespace Backend.Repositories
+namespace backend.Repositories
 {
     public class UsuarioRepository : IUsuarioRepository
     {

@@ -1,6 +1,6 @@
-using Backend.Models;
+using backend.Models;
 
-namespace Backend.Repositories
+namespace backend.Repositories
 {
     public interface IUsuarioRepository
     {

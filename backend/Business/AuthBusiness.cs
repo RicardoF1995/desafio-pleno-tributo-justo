@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace backend.Business
 {
-    public class UsuarioBusiness
+    public class AuthBusiness
     {
         private readonly UsuarioRepository _usuarioRepository;
 
-        public UsuarioBusiness(UsuarioRepository usuarioRepository)
+        public AuthBusiness(UsuarioRepository usuarioRepository)
         {
             _usuarioRepository = usuarioRepository;
         }
@@ -23,7 +23,7 @@ namespace backend.Business
             var novoUsuario = new Usuario
             {
                 NomeUsuario = usuarioDTO.NomeUsuario,
-                SenhaHash = BCrypt.Net.BCrypt.HashPassword(usuarioDTO.Senha); //aplicar hash para criptografia
+                SenhaHash = BCrypt.Net.BCrypt.HashPassword(usuarioDTO.Senha) //aplicar hash para criptografia
             };
 
             await _usuarioRepository.CriarUsuario(novoUsuario);

@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using backend.Business;
+using backend.Repositories;
+using backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +45,8 @@ builder.Services.AddAuthentication(options =>
 });
 
 var app = builder.Build();
+
+DatabaseInitializer.Initialize();
 
 app.UseHttpsRedirection();
 app.UseRouting();

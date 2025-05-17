@@ -1,18 +1,18 @@
-using Backend.Business;
-using Backend.DTOs;
+using backend.Business;
+using backend.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using Backend.Services; 
+using backend.Services; 
 
 [ApiController]
 [Route("[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly UsuarioBusiness _usuarioBusiness;
+    private readonly AuthBusiness _authBusiness;
     private readonly JwtService _jwtService;
 
-    public AuthController(UsuarioBusiness usuarioBusiness, JwtService jwtService)
+    public AuthController(AuthBusiness authBusiness, JwtService jwtService)
     {
-        _usuarioBusiness = usuarioBusiness;
+        _authBusiness = authBusiness;
         _jwtService = jwtService;
     }
 
@@ -22,7 +22,7 @@ public class AuthController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var sucesso = await _usuarioBusiness.CadastrarUsuarioAsync(usuarioDTO);
+        var sucesso = await _authBusiness.CadastrarUsuarioAsync(usuarioDTO);
         if (!sucesso)
             return BadRequest("Usuário já existe.");
 
@@ -35,7 +35,7 @@ public class AuthController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var usuarioValido = await _usuarioBusiness.ValidarLoginAsync(usuarioDTO);
+        var usuarioValido = await _authBusiness.ValidarLoginAsync(usuarioDTO);
         if (usuarioValido == null)
             return Unauthorized("Usuário ou senha inválidos.");
 
