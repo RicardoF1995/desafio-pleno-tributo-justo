@@ -102,7 +102,7 @@ namespace backend.Repositories
                     Id = reader.GetInt32(0),
                     Cnpj = reader.GetString(1),
                     RazaoSocial = reader.GetString(2),
-                    LstNotasFiscais = new List<NotaFiscal>() // Se quiser buscar notas depois
+                    LstNotasFiscais = new List<NotaFiscal>()
                 };
             }
 

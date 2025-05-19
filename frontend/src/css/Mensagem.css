@@ -1,0 +1,29 @@
+.mensagem {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    z-index: 1001;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    animation: fadeInOut 5s forwards;
+  }
+  
+  .mensagem.sucesso {
+    background-color: #28a745;
+  }
+  
+  .mensagem.erro {
+    background-color: #dc3545;
+  }
+  
+  @keyframes fadeInOut {
+    0% { opacity: 0; transform: translate(-50%, 10px); }
+    10% { opacity: 1; transform: translate(-50%, 0); }
+    90% { opacity: 1; transform: translate(-50%, 0); }
+    100% { opacity: 0; transform: translate(-50%, 10px); }
+  }
+  

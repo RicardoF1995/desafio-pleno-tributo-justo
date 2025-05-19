@@ -69,7 +69,7 @@ namespace backend.Repositories
                 {
                     Id = reader.GetInt32(0),
                     NomeUsuario = reader.GetString(1),
-                    SenhaHash = reader.GetString(2)  //Retorna o hash para validar depois
+                    SenhaHash = reader.GetString(2)
                 };
             }
 

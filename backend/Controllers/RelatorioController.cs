@@ -17,8 +17,15 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<IActionResult> RetornarRelatorioAsync()
         {
-            var relatorio = await _relatoriosBusiness.RetornarRelatorioAsync();
-            return Ok(relatorio);
+            try
+            {
+                var relatorio = await _relatoriosBusiness.RetornarRelatorioAsync();
+                return Ok(relatorio);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro ao gerar relatório: {ex.Message}");
+            }
         }
     }
 }

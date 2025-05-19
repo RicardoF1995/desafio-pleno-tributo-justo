@@ -7,8 +7,9 @@ namespace backend.DTOs
         public DateTime DataEmissao { get; set; }
         public List<ItemNotaDTO> LstItensNota { get; set; } = new();
 
-        //Calculados via regras de negócio
-        public double ValorTotal => LstItensNota.Sum(i => i.Quantidade * i.ValorUnitario);
-        public double ImpostoRecolhido => LstItensNota.Sum(i => i.ImpostoItem);
+        public decimal ValorTotal { get; set; }
+        public decimal ImpostoRecolhido { get; set; }
+        public decimal Diferenca { get; set; }
+        public decimal DiferencaPercentual { get; set; }
     }
 }

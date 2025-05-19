@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import Home from "./pages/Home";
 import LoginPage from "./pages/Login";
 import Upload from "./pages/Upload";
 import Relatorios from "./pages/Relatorios";
@@ -18,6 +19,14 @@ function App() {
           </ProtectedRoute>
         }
       >
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/upload"
           element={
@@ -51,7 +60,7 @@ function App() {
           }
         />
       </Route>
-      <Route path="*" element={<Navigate to="/login" />} />
+      <Route path="*" element={<Navigate to="/home" />} />
     </Routes>
   );
 }

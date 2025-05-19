@@ -1,0 +1,102 @@
+.tabela-container {
+    padding: 20px;
+    overflow-x: auto;
+  }
+  
+  .tabela-relatorio {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    font-size: 13px; /* Letras menores */
+    color: #333;
+  }
+  
+  .tabela-relatorio thead {
+    background-color: #101C35; /* Cor do cabeçalho */
+    color: #fff; /* Letras brancas */
+  }
+  
+  .tabela-relatorio th,
+  .tabela-relatorio td {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: normal;
+    transition: background-color 0.2s;
+  }
+  
+  /* Grupo da empresa (linha expansível) */
+  .grupo-empresa {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .grupo-empresa:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .grupo-empresa td {
+    border: 1px solid #ccc;
+    font-weight: bold;
+    font-size: 13.5px;
+  }
+  
+  .linha-nota:nth-child(odd) {
+    background-color: #ffffff;
+  }
+  
+  .linha-nota:nth-child(even) {
+    background-color: #aaaaaa;
+  }
+  
+  .tabela-relatorio td:nth-child(4),
+  .tabela-relatorio td:nth-child(5),
+  .tabela-relatorio td:nth-child(6) {
+    text-align: right;
+  }
+  
+  .tabela-relatorio td:first-child,
+  .tabela-relatorio th:first-child {
+    font-weight: bold;
+  }
+  
+  .filtros-container {
+    background-color: #f8f9fb;
+    padding: 16px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.filtros-container h2 {
+    margin-bottom: 12px;
+    font-size: 18px;
+    color: #101C35;
+}
+
+.filtros-relatorio {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.filtro-item {
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+}
+
+.filtro-item label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.filtro-item input {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}

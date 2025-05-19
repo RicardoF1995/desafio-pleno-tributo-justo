@@ -6,12 +6,13 @@ export default function Navbar() {
 
   const handleLogoff = () => {
     localStorage.removeItem("token");
-    navigate("/");
+    navigate("/login");
   };
 
   return (
     <nav className="navbar">
       <div className="nav-links">
+        <NavLink to="/home" className="nav-link">Home</NavLink>
         <NavLink to="/upload" className="nav-link">Upload</NavLink>
         <NavLink to="/relatorio" className="nav-link">Relatório</NavLink>
         <NavLink to="/estatisticas" className="nav-link">Estatísticas</NavLink>

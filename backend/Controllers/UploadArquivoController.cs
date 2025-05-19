@@ -26,7 +26,6 @@ namespace backend.Controllers
             }
             catch (Exception ex)
             {
-                // Logar erro aqui, se quiser
                 return BadRequest($"Erro ao processar o arquivo: {ex.Message}");
             }
         }

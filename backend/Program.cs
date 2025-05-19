@@ -38,6 +38,7 @@ builder.Services.AddScoped<AuthBusiness>();
 builder.Services.AddScoped<EstatisticasBusiness>();
 builder.Services.AddScoped<RelatoriosBusiness>();
 builder.Services.AddScoped<UploadArquivoBusiness>();
+builder.Services.AddScoped<AlertasBusiness>();
 
 //JWT config
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);

@@ -3,13 +3,13 @@ using backend.Repositories;
 
 namespace backend.Business
 {
-    public class RelatoriosBusiness
+    public class AlertasBusiness
     {
         private readonly IEmpresaRepository _empresaRepository;
         private readonly INotaFiscalRepository _notaFiscalRepository;
         private readonly IItemNotaRepository _itemNotaRepository;
 
-        public RelatoriosBusiness(
+        public AlertasBusiness(
             IEmpresaRepository empresaRepository,
             INotaFiscalRepository notaFiscalRepository,
             IItemNotaRepository itemNotaRepository)
@@ -19,7 +19,7 @@ namespace backend.Business
             _itemNotaRepository = itemNotaRepository;
         }
 
-        public async Task<List<EmpresaDTO>> RetornarRelatorioAsync()
+        public async Task<List<EmpresaDTO>> RetornarAlertasAsync()
         {
             var empresas = await _empresaRepository.BuscarTodasEmpresasAsync();
             var empresasDto = new List<EmpresaDTO>();
@@ -27,7 +27,7 @@ namespace backend.Business
             foreach (var empresa in empresas)
             {
                 var notas = await _notaFiscalRepository.BuscarNotasPorEmpresaAsync(empresa.Id);
-                var notasDto = new List<NotaFiscalDTO>();
+                var notasComDiferencaAlta = new List<NotaFiscalDTO>();
 
                 foreach (var nota in notas)
                 {
@@ -42,29 +42,37 @@ namespace backend.Business
                         ImpostoItem = i.ImpostoItem
                     }).ToList();
 
-                    decimal totalNota = (decimal)itens.Sum(i => i.Quantidade * i.ValorUnitario);
+                    decimal valorTotal = (decimal)itens.Sum(i => i.Quantidade * i.ValorUnitario);
                     decimal impostoRecolhido = (decimal)itens.Sum(i => i.ImpostoItem);
-                    decimal diferenca = totalNota - impostoRecolhido;
+                    decimal diferenca = valorTotal - impostoRecolhido;
+                    decimal diferencaPercentual = valorTotal > 0 ? (diferenca / valorTotal) * 100 : 0;
 
-                    notasDto.Add(new NotaFiscalDTO
+                    if (valorTotal > 0 && diferenca / valorTotal > 0.5m)
                     {
-                        Id = nota.Id,
-                        NumeroNota = nota.NumeroNota,
-                        DataEmissao = nota.DataEmissao,
-                        ValorTotal = totalNota,
-                        ImpostoRecolhido = impostoRecolhido,
-                        Diferenca = diferenca,
-                        LstItensNota = itensDto
-                    });
+                        notasComDiferencaAlta.Add(new NotaFiscalDTO
+                        {
+                            Id = nota.Id,
+                            NumeroNota = nota.NumeroNota,
+                            DataEmissao = nota.DataEmissao,
+                            ValorTotal = valorTotal,
+                            ImpostoRecolhido = impostoRecolhido,
+                            Diferenca = diferenca,
+                            DiferencaPercentual = diferencaPercentual,
+                            LstItensNota = itensDto
+                        });
+                    }
                 }
 
-                empresasDto.Add(new EmpresaDTO
+                if (notasComDiferencaAlta.Any())
                 {
-                    Id = empresa.Id,
-                    Cnpj = empresa.Cnpj,
-                    RazaoSocial = empresa.RazaoSocial,
-                    LstNotasFiscais = notasDto
-                });
+                    empresasDto.Add(new EmpresaDTO
+                    {
+                        Id = empresa.Id,
+                        Cnpj = empresa.Cnpj,
+                        RazaoSocial = empresa.RazaoSocial,
+                        LstNotasFiscais = notasComDiferencaAlta
+                    });
+                }
             }
 
             return empresasDto;

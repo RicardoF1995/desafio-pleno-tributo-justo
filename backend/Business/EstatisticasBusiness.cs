@@ -24,7 +24,6 @@ namespace backend.Business
         {
             var empresas = await _empresaRepository.BuscarTodasEmpresasAsync();
             int totalEmpresas = empresas.Count;
-
             int totalNotas = 0;
             int totalItens = 0;
             double valorTotalNotas = 0;
@@ -49,8 +48,8 @@ namespace backend.Business
                 TotalEmpresas = totalEmpresas,
                 TotalNotasFiscais = totalNotas,
                 TotalItens = totalItens,
-                ValorTotalNotas = valorTotalNotas,
-                TotalImpostos = totalImpostos
+                ValorTotalNotas = (decimal)valorTotalNotas,
+                TotalImpostos = (decimal)totalImpostos
             };
         }
     }

@@ -58,7 +58,6 @@ namespace backend.Repositories
             using var connection = new SqliteConnection(_connectionString);
             await connection.OpenAsync();
 
-            // Buscar notas da empresa
             var command = connection.CreateCommand();
             command.CommandText = @"
                 SELECT id,
