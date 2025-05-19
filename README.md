@@ -18,6 +18,7 @@ Sistema desenvolvido para o desafio técnico da Tributo Justo, com autenticaçã
 - Abra o terminal do VSCode
 - Execute o comando 'cd backend'
 - E em seguida execute 'dotnet run' para rodar o backend, automaticamente instalará os pacotes
+- Como possui um arquivo de inicialização do banco de dados, ao executar a aplicação já o criará automaticamente (banco e tabelas)
 - Depois abra um novo terminal e execute o comando 'cd frontend'
 - E em seguida execute 'npm install', isso instalará todos os pacotes utilizados no frontend
 - Para rodar o front, execute o comando 'npm start', deverá abrir no navegador
