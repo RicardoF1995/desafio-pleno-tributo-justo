@@ -11,13 +11,13 @@ public static class DatabaseInitializer
 
         var command = connection.CreateCommand();
         command.CommandText = @"
-            CREATE TABLE empresa (
+            CREATE TABLE IF NOT EXISTS empresa (
                          id INTEGER PRIMARY KEY AUTOINCREMENT,
                          cnpj TEXT NOT NULL UNIQUE,
                          razao_social TEXT NOT NULL
             );
 
-            CREATE TABLE item_nota (
+            CREATE TABLE IF NOT EXISTS item_nota (
                          id INTEGER PRIMARY KEY AUTOINCREMENT,
                          nota_id INTEGER NOT NULL,
                          codigo_item TEXT NOT NULL,
@@ -28,7 +28,7 @@ public static class DatabaseInitializer
              FOREIGN KEY (nota_id) REFERENCES nota_fiscal(id)
             );
 
-            CREATE TABLE nota_fiscal (
+            CREATE TABLE IF NOT EXISTS nota_fiscal (
                          id INTEGER PRIMARY KEY AUTOINCREMENT,
                          numero_nota TEXT NOT NULL,
                          data_emissao TEXT NOT NULL,
@@ -36,7 +36,7 @@ public static class DatabaseInitializer
             FOREIGN KEY (empresa_id) REFERENCES empresa(id)
             );
 
-            CREATE TABLE usuario (
+            CREATE TABLE IF NOT EXISTS usuario (
                          id INTEGER PRIMARY KEY AUTOINCREMENT,
                          nome_usuario TEXT NOT NULL UNIQUE,
                          senha_hash TEXT NOT NULL

@@ -7,9 +7,9 @@ namespace backend.Business
 {
     public class AuthBusiness
     {
-        private readonly UsuarioRepository _usuarioRepository;
+        private readonly IUsuarioRepository _usuarioRepository;
 
-        public AuthBusiness(UsuarioRepository usuarioRepository)
+        public AuthBusiness(IUsuarioRepository usuarioRepository)
         {
             _usuarioRepository = usuarioRepository;
         }
