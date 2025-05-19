@@ -17,6 +17,14 @@ public static class DatabaseInitializer
                          razao_social TEXT NOT NULL
             );
 
+            CREATE TABLE IF NOT EXISTS nota_fiscal (
+                         id INTEGER PRIMARY KEY AUTOINCREMENT,
+                         numero_nota TEXT NOT NULL,
+                         data_emissao TEXT NOT NULL,
+                         empresa_id INTEGER NOT NULL,
+            FOREIGN KEY (empresa_id) REFERENCES empresa(id)
+            );
+
             CREATE TABLE IF NOT EXISTS item_nota (
                          id INTEGER PRIMARY KEY AUTOINCREMENT,
                          nota_id INTEGER NOT NULL,
@@ -26,14 +34,6 @@ public static class DatabaseInitializer
                          valor_unitario REAL NOT NULL,
                          imposto_item REAL NOT NULL,
              FOREIGN KEY (nota_id) REFERENCES nota_fiscal(id)
-            );
-
-            CREATE TABLE IF NOT EXISTS nota_fiscal (
-                         id INTEGER PRIMARY KEY AUTOINCREMENT,
-                         numero_nota TEXT NOT NULL,
-                         data_emissao TEXT NOT NULL,
-                         empresa_id INTEGER NOT NULL,
-            FOREIGN KEY (empresa_id) REFERENCES empresa(id)
             );
 
             CREATE TABLE IF NOT EXISTS usuario (

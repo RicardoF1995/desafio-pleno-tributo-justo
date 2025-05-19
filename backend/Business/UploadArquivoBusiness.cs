@@ -5,6 +5,7 @@ using backend.Mapping;
 using CsvHelper;
 using CsvHelper.Configuration;
 using System.Globalization;
+using Microsoft.Data.Sqlite;
 
 namespace backend.Business
 {
@@ -13,12 +14,17 @@ namespace backend.Business
         private readonly IEmpresaRepository _empresaRepository;
         private readonly INotaFiscalRepository _notaRepository;
         private readonly IItemNotaRepository _itemRepository;
+        private readonly string _connectionString;
 
-        public UploadArquivoBusiness(IEmpresaRepository empresaRepository, INotaFiscalRepository notaRepository, IItemNotaRepository itemRepository)
+        public UploadArquivoBusiness(IEmpresaRepository empresaRepository,
+                                     INotaFiscalRepository notaRepository,
+                                     IItemNotaRepository itemRepository,
+                                     IConfiguration configuration)
         {
             _empresaRepository = empresaRepository;
             _notaRepository = notaRepository;
             _itemRepository = itemRepository;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         public async Task ProcessarArquivoCsvAsync(Stream fileStream)
@@ -58,29 +64,43 @@ namespace backend.Business
                         }).ToList()
                 }).ToList();
 
-            foreach (var empresa in empresasAgrupadas)
+            using var connection = new SqliteConnection(_connectionString);
+            await connection.OpenAsync();
+
+            using var transaction = await connection.BeginTransactionAsync();
+
+            try
             {
-                var empresaExistente = await _empresaRepository.BuscarEmpresaPorCnpjAsync(empresa.Cnpj);
-                int empresaId;
 
-                if (empresaExistente == null)
+                foreach (var empresa in empresasAgrupadas)
                 {
-                    empresaId = await _empresaRepository.InserirEmpresaAsync(empresa);
-                }
-                else
-                {
-                    empresaId = empresaExistente.Id;
-                }
+                    var empresaExistente = await _empresaRepository.BuscarEmpresaPorCnpjAsync(empresa.Cnpj);
+                    int empresaId;
 
-                foreach (var nota in empresa.LstNotasFiscais)
-                {
-                    int notaId = await _notaRepository.InserirNotaFiscalAsync(empresaId, nota);
-
-                    foreach (var item in nota.LstItensNota)
+                    if (empresaExistente == null)
                     {
-                        await _itemRepository.InserirItemNotaAsync(item, notaId);
+                        empresaId = await _empresaRepository.InserirEmpresaAsync(empresa);
+                    }
+                    else
+                    {
+                        empresaId = empresaExistente.Id;
+                    }
+
+                    foreach (var nota in empresa.LstNotasFiscais)
+                    {
+                        int notaId = await _notaRepository.InserirNotaFiscalAsync(empresaId, nota);
+
+                        foreach (var item in nota.LstItensNota)
+                        {
+                            await _itemRepository.InserirItemNotaAsync(item, notaId);
+                        }
                     }
                 }
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
             }
         }
     }

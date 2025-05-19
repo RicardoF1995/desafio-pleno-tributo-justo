@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ricar\\OneDrive\\Área de Trabalho\\Projeto Tributo Justo\\desafio-pleno-tributo-justo\\backend\\backend.csproj": {}
+    "c:\\Users\\ricar\\OneDrive\\Área de Trabalho\\Projeto Tributo Justo\\desafio-pleno-tributo-justo\\backend\\backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ricar\\OneDrive\\Área de Trabalho\\Projeto Tributo Justo\\desafio-pleno-tributo-justo\\backend\\backend.csproj": {
+    "c:\\Users\\ricar\\OneDrive\\Área de Trabalho\\Projeto Tributo Justo\\desafio-pleno-tributo-justo\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ricar\\OneDrive\\Área de Trabalho\\Projeto Tributo Justo\\desafio-pleno-tributo-justo\\backend\\backend.csproj",
+        "projectUniqueName": "c:\\Users\\ricar\\OneDrive\\Área de Trabalho\\Projeto Tributo Justo\\desafio-pleno-tributo-justo\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "C:\\Users\\ricar\\OneDrive\\Área de Trabalho\\Projeto Tributo Justo\\desafio-pleno-tributo-justo\\backend\\backend.csproj",
+        "projectPath": "c:\\Users\\ricar\\OneDrive\\Área de Trabalho\\Projeto Tributo Justo\\desafio-pleno-tributo-justo\\backend\\backend.csproj",
         "packagesPath": "C:\\Users\\ricar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ricar\\OneDrive\\Área de Trabalho\\Projeto Tributo Justo\\desafio-pleno-tributo-justo\\backend\\obj\\",
+        "outputPath": "c:\\Users\\ricar\\OneDrive\\Área de Trabalho\\Projeto Tributo Justo\\desafio-pleno-tributo-justo\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ricar\\AppData\\Roaming\\NuGet\\NuGet.Config"

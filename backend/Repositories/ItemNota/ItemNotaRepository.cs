@@ -25,13 +25,13 @@ namespace backend.Repositories
                             quantidade,
                             valor_unitario,
                             imposto_item,
-                            nota_fiscal_id)
+                            nota_id)
                     VALUES ($codigo_item,
                             $descricao_item,
                             $quantidade,
                             $valor_unitario,
                             $imposto_item,
-                            $nota_fiscal_id);
+                            $nota_id);
             ";
 
             command.Parameters.AddWithValue("$codigo_item", itemNota.CodigoItem);
@@ -39,7 +39,7 @@ namespace backend.Repositories
             command.Parameters.AddWithValue("$quantidade", itemNota.Quantidade);
             command.Parameters.AddWithValue("$valor_unitario", itemNota.ValorUnitario);
             command.Parameters.AddWithValue("$imposto_item", itemNota.ImpostoItem);
-            command.Parameters.AddWithValue("$nota_fiscal_id", notaFiscalId);
+            command.Parameters.AddWithValue("$nota_id", notaFiscalId);
 
             await command.ExecuteNonQueryAsync();
         }
@@ -60,9 +60,9 @@ namespace backend.Repositories
                        valor_unitario,
                        imposto_item
                   FROM item_nota
-                 WHERE nota_fiscal_id = $nota_fiscal_id;
+                 WHERE nota_id = $nota_id;
             ";
-            command.Parameters.AddWithValue("$nota_fiscal_id", notaFiscalId);
+            command.Parameters.AddWithValue("$nota_id", notaFiscalId);
 
             using var reader = await command.ExecuteReaderAsync();
 

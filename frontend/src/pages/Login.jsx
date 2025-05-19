@@ -29,7 +29,7 @@ export default function Login() {
     } catch (err) {
       setTipoMensagem("erro");
       setMensagemSucesso("Erro ao cadastrar usuário!");
-      setTimeout(() => setMensagemSucesso(""), 5000); // limpa após 5 segundos
+      setTimeout(() => setMensagemSucesso(""), 5000);
       setIsCadastro(false);
     }
   };

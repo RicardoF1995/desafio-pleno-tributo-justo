@@ -29,9 +29,15 @@ builder.Services.AddControllers();
 
 //repository
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IEmpresaRepository, EmpresaRepository>();
+builder.Services.AddScoped<IItemNotaRepository, ItemNotaRepository>();
+builder.Services.AddScoped<INotaFiscalRepository, NotaFiscalRepository>();
 
 //business
 builder.Services.AddScoped<AuthBusiness>();
+builder.Services.AddScoped<EstatisticasBusiness>();
+builder.Services.AddScoped<RelatoriosBusiness>();
+builder.Services.AddScoped<UploadArquivoBusiness>();
 
 //JWT config
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);

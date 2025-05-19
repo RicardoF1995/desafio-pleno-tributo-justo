@@ -17,8 +17,6 @@ namespace backend.Repositories
             using var connection = new SqliteConnection(_connectionString);
             await connection.OpenAsync();
 
-            using var transaction = await connection.BeginTransactionAsync();
-
             var command = connection.CreateCommand();
             command.CommandText = @"
                 INSERT INTO nota_fiscal

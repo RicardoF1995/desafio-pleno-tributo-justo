@@ -17,39 +17,40 @@ function App() {
             <Layout />
           </ProtectedRoute>
         }
-      />
-      <Route
-        path="/upload"
-        element={
-          <ProtectedRoute>
-            <Upload />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/relatorio"
-        element={
-          <ProtectedRoute>
-            <Relatorios />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/alertas"
-        element={
-          <ProtectedRoute>
-            <Alertas />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/estatisticas"
-        element={
-          <ProtectedRoute>
-            <Estatisticas />
-          </ProtectedRoute>
-        }
-      />
+      >
+        <Route
+          path="/upload"
+          element={
+            <ProtectedRoute>
+              <Upload />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/relatorio"
+          element={
+            <ProtectedRoute>
+              <Relatorios />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/alertas"
+          element={
+            <ProtectedRoute>
+              <Alertas />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/estatisticas"
+          element={
+            <ProtectedRoute>
+              <Estatisticas />
+            </ProtectedRoute>
+          }
+        />
+      </Route>
       <Route path="*" element={<Navigate to="/login" />} />
     </Routes>
   );
