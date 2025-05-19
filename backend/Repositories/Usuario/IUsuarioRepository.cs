@@ -4,8 +4,8 @@ namespace backend.Repositories
 {
     public interface IUsuarioRepository
     {
-        Task CriarUsuario(Usuario usuario);
-        Task<bool> VerificarUsuarioExistentePorNome(string nomeUsuario);
-        Task<Usuario?> LoginUsuario(string nomeUsuario);
+        Task CadastrarUsuarioAsync(Usuario usuario);
+        Task<bool> VerificarUsuarioExistentePorNomeAsync(string nomeUsuario);
+        Task<Usuario?> LoginUsuarioAsync(string nomeUsuario);
     }
 }

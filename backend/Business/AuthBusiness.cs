@@ -16,7 +16,7 @@ namespace backend.Business
 
         public async Task<bool> CadastrarUsuarioAsync(UsuarioDTO usuarioDTO)
         {
-            var usuarioExistente = await _usuarioRepository.VerificarUsuarioExistentePorNome(usuarioDTO.NomeUsuario);
+            var usuarioExistente = await _usuarioRepository.VerificarUsuarioExistentePorNomeAsync(usuarioDTO.NomeUsuario);
             if (usuarioExistente)
                 return false; // Já existe
 
@@ -26,14 +26,14 @@ namespace backend.Business
                 SenhaHash = BCrypt.Net.BCrypt.HashPassword(usuarioDTO.Senha) //aplicar hash para criptografia
             };
 
-            await _usuarioRepository.CriarUsuario(novoUsuario);
+            await _usuarioRepository.CadastrarUsuarioAsync(novoUsuario);
             return true;
         }
 
         public async Task<Usuario?> ValidarLoginAsync(UsuarioDTO usuarioDTO)
         {
             //Busca o usuário no banco pelo nome
-            var usuarioDb = await _usuarioRepository.LoginUsuario(usuarioDTO.NomeUsuario);
+            var usuarioDb = await _usuarioRepository.LoginUsuarioAsync(usuarioDTO.NomeUsuario);
             if (usuarioDb == null)
                 return null; // usuário não encontrado
 

@@ -3,44 +3,47 @@ using backend.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using backend.Services; 
 
-[ApiController]
-[Route("[controller]")]
-public class AuthController : ControllerBase
+namespace backend.Controllers
 {
-    private readonly AuthBusiness _authBusiness;
-    private readonly JwtService _jwtService;
-
-    public AuthController(AuthBusiness authBusiness, JwtService jwtService)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AuthController : ControllerBase
     {
-        _authBusiness = authBusiness;
-        _jwtService = jwtService;
-    }
+        private readonly AuthBusiness _authBusiness;
+        private readonly JwtService _jwtService;
 
-    [HttpPost("register")]
-    public async Task<IActionResult> CriarUsuario([FromBody] UsuarioDTO usuarioDTO)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+        public AuthController(AuthBusiness authBusiness, JwtService jwtService)
+        {
+            _authBusiness = authBusiness;
+            _jwtService = jwtService;
+        }
 
-        var sucesso = await _authBusiness.CadastrarUsuarioAsync(usuarioDTO);
-        if (!sucesso)
-            return BadRequest("Usuário já existe.");
+        [HttpPost("register")]
+        public async Task<IActionResult> CriarUsuario([FromBody] UsuarioDTO usuarioDTO)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-        return Ok("Usuário registrado com sucesso.");
-    }
+            var sucesso = await _authBusiness.CadastrarUsuarioAsync(usuarioDTO);
+            if (!sucesso)
+                return BadRequest("Usuário já existe.");
 
-    [HttpPost("login")]
-    public async Task<IActionResult> LoginUsuario([FromBody] UsuarioDTO usuarioDTO)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+            return Ok("Usuário registrado com sucesso.");
+        }
 
-        var usuarioValido = await _authBusiness.ValidarLoginAsync(usuarioDTO);
-        if (usuarioValido == null)
-            return Unauthorized("Usuário ou senha inválidos.");
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginUsuario([FromBody] UsuarioDTO usuarioDTO)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-        var token = _jwtService.GerarToken(usuarioValido.NomeUsuario);
+            var usuarioValido = await _authBusiness.ValidarLoginAsync(usuarioDTO);
+            if (usuarioValido == null)
+                return Unauthorized("Usuário ou senha inválidos.");
 
-        return Ok(new { token });
+            var token = _jwtService.GerarToken(usuarioValido.NomeUsuario);
+
+            return Ok(new { token });
+        }
     }
 }
