@@ -6,7 +6,7 @@ namespace backend.Repositories
     public class EmpresaRepository : IEmpresaRepository
     {
         private readonly string _connectionString;
-        
+
         public EmpresaRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
@@ -49,8 +49,12 @@ namespace backend.Repositories
             using var connection = new SqliteConnection(_connectionString);
             await connection.OpenAsync();
 
-            var command = connection.CreateCommand();
-            command.CommandText = @"
+            using var transaction = await connection.BeginTransactionAsync();
+
+            try
+            {
+                var command = connection.CreateCommand();
+                command.CommandText = @"
                 INSERT INTO empresa
                            (cnpj,
                             razao_social)
@@ -59,11 +63,20 @@ namespace backend.Repositories
                             
                 SELECT last_insert_rowid();
             ";
-            command.Parameters.AddWithValue("$cnpj", empresa.Cnpj);
-            command.Parameters.AddWithValue("$razao_social", empresa.RazaoSocial);
+                command.Parameters.AddWithValue("$cnpj", empresa.Cnpj);
+                command.Parameters.AddWithValue("$razao_social", empresa.RazaoSocial);
 
-            var result = await command.ExecuteScalarAsync();
-            return Convert.ToInt32(result);
+                var result = await command.ExecuteScalarAsync();
+
+                await transaction.CommitAsync();
+
+                return Convert.ToInt32(result);
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
 
         public async Task<Empresa?> BuscarEmpresaPorCnpjAsync(string cnpj)

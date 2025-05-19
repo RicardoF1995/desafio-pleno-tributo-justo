@@ -71,7 +71,6 @@ namespace backend.Business
 
             try
             {
-
                 foreach (var empresa in empresasAgrupadas)
                 {
                     var empresaExistente = await _empresaRepository.BuscarEmpresaPorCnpjAsync(empresa.Cnpj);

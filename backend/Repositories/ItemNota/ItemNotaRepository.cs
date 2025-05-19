@@ -17,8 +17,11 @@ namespace backend.Repositories
             using var connection = new SqliteConnection(_connectionString);
             await connection.OpenAsync();
 
-            var command = connection.CreateCommand();
-            command.CommandText = @"
+            using var transaction = await connection.BeginTransactionAsync();
+            try
+            {
+                var command = connection.CreateCommand();
+                command.CommandText = @"
                 INSERT INTO item_nota
                             (codigo_item,
                             descricao_item,
@@ -34,14 +37,22 @@ namespace backend.Repositories
                             $nota_id);
             ";
 
-            command.Parameters.AddWithValue("$codigo_item", itemNota.CodigoItem);
-            command.Parameters.AddWithValue("$descricao_item", itemNota.DescricaoItem);
-            command.Parameters.AddWithValue("$quantidade", itemNota.Quantidade);
-            command.Parameters.AddWithValue("$valor_unitario", itemNota.ValorUnitario);
-            command.Parameters.AddWithValue("$imposto_item", itemNota.ImpostoItem);
-            command.Parameters.AddWithValue("$nota_id", notaFiscalId);
+                command.Parameters.AddWithValue("$codigo_item", itemNota.CodigoItem);
+                command.Parameters.AddWithValue("$descricao_item", itemNota.DescricaoItem);
+                command.Parameters.AddWithValue("$quantidade", itemNota.Quantidade);
+                command.Parameters.AddWithValue("$valor_unitario", itemNota.ValorUnitario);
+                command.Parameters.AddWithValue("$imposto_item", itemNota.ImpostoItem);
+                command.Parameters.AddWithValue("$nota_id", notaFiscalId);
 
-            await command.ExecuteNonQueryAsync();
+                await command.ExecuteNonQueryAsync();
+
+                await transaction.CommitAsync();
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
 
         public async Task<List<ItemNota>> BuscarItensPorNotaFiscalAsync(int notaFiscalId)

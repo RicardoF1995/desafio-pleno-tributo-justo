@@ -17,8 +17,12 @@ namespace backend.Repositories
             using var connection = new SqliteConnection(_connectionString);
             await connection.OpenAsync();
 
-            var command = connection.CreateCommand();
-            command.CommandText = @"
+            using var transaction = await connection.BeginTransactionAsync();
+
+            try
+            {
+                var command = connection.CreateCommand();
+                command.CommandText = @"
                 INSERT INTO nota_fiscal
                            (numero_nota,
                             data_emissao,
@@ -30,12 +34,21 @@ namespace backend.Repositories
                 SELECT last_insert_rowid();
             ";
 
-            command.Parameters.AddWithValue("$numero_nota", nota.NumeroNota);
-            command.Parameters.AddWithValue("$data_emissao", nota.DataEmissao);
-            command.Parameters.AddWithValue("$empresa_id", empresaId);
+                command.Parameters.AddWithValue("$numero_nota", nota.NumeroNota);
+                command.Parameters.AddWithValue("$data_emissao", nota.DataEmissao);
+                command.Parameters.AddWithValue("$empresa_id", empresaId);
 
-            var result = await command.ExecuteScalarAsync();
-            return Convert.ToInt32(result);
+                var result = await command.ExecuteScalarAsync();
+
+                await transaction.CommitAsync();
+
+                return Convert.ToInt32(result);
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
 
         public async Task<List<NotaFiscal>> BuscarNotasPorEmpresaAsync(int empresaId)
