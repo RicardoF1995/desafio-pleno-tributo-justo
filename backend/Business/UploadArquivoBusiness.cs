@@ -5,7 +5,6 @@ using backend.Mapping;
 using CsvHelper;
 using CsvHelper.Configuration;
 using System.Globalization;
-using Microsoft.Data.Sqlite;
 
 namespace backend.Business
 {
@@ -14,17 +13,14 @@ namespace backend.Business
         private readonly IEmpresaRepository _empresaRepository;
         private readonly INotaFiscalRepository _notaRepository;
         private readonly IItemNotaRepository _itemRepository;
-        private readonly string _connectionString;
 
         public UploadArquivoBusiness(IEmpresaRepository empresaRepository,
                                      INotaFiscalRepository notaRepository,
-                                     IItemNotaRepository itemRepository,
-                                     IConfiguration configuration)
+                                     IItemNotaRepository itemRepository)
         {
             _empresaRepository = empresaRepository;
             _notaRepository = notaRepository;
             _itemRepository = itemRepository;
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         public async Task ProcessarArquivoCsvAsync(Stream fileStream)
@@ -64,11 +60,6 @@ namespace backend.Business
                         }).ToList()
                 }).ToList();
 
-            using var connection = new SqliteConnection(_connectionString);
-            await connection.OpenAsync();
-
-            using var transaction = await connection.BeginTransactionAsync();
-
             try
             {
                 foreach (var empresa in empresasAgrupadas)
@@ -98,7 +89,6 @@ namespace backend.Business
             }
             catch
             {
-                await transaction.RollbackAsync();
                 throw;
             }
         }
