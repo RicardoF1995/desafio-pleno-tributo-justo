@@ -60,7 +60,7 @@ A senha é criptografada com BCrypt antes de ser salva, aumentando a segurança 
 Utilização da biblioteca CsvHelper para parsing do arquivo .csv, convertendo os dados para objetos C# .
 
 🔹 Front-end
-Criado com React + TypeScript,por ser uma stack com a qual já possuo familiaridade.
+Criado com React,por ser uma stack com a qual já possuo familiaridade.
 Axios foi utilizado para facilitar a comunicação com a API.
 O JWT também é armazenado localmente no browser e incluído nas requisições para rotas autenticadas.
 
